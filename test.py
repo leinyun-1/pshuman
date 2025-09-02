@@ -99,11 +99,11 @@ def test_optimize_v6():
     econdata = SMPLDataset(dataset_param, device='cuda')
 
     carving = ReMesh(cfg.recon_opt, econ_dataset=econdata)
-    carving.weights = torch.Tensor([1., 0.4, 0.8, 1.0, 0.8, 0.4]).view(6,1,1,1).to(carving.device)
-    #carving.weights = torch.Tensor([1., 0.4, 0.8, 0.4, 1.0, 0.4, 0.8, 0.4]).view(8,1,1,1).to(carving.device)
+    #carving.weights = torch.Tensor([1., 0.4, 0.8, 1.0, 0.8, 0.4]).view(6,1,1,1).to(carving.device)
+    carving.weights = torch.Tensor([1., 0.4, 0.8, 0.4, 1.0, 0.4, 0.8, 0.4]).view(8,1,1,1).to(carving.device)
     #carving.weights = torch.Tensor([1., 0.1, 0.1, 0.1, 1.0, 0.1, 0.1, 0.1]).view(8,1,1,1).to(carving.device)
-    mv, proj = make_sparse_camera(carving.opt.cam_path, carving.opt.scale, views=[0,1,2,4,6,7], device=carving.device)
-    #mv, proj = make_sparse_camera_diy()
+    #mv, proj = make_sparse_camera(carving.opt.cam_path, carving.opt.scale, views=[0,1,2,4,6,7], device=carving.device)
+    mv, proj = make_sparse_camera_diy()
     carving.renderer = LocalNormaRender(mv, proj, [carving.resolution, carving.resolution], device=carving.device)
 
     for case_id, batch in tqdm(enumerate(dataloader)):
@@ -114,10 +114,14 @@ def test_optimize_v6():
 
 def get_mv_rgb_normal(scene,session):
     #root_dir = '/root/leinyu/code/StableNormal/images/zongse'
-    root_dir = '/root/leinyu/code/StableNormal/images/' + scene
+    #root_dir = '/root/leinyu/code/StableNormal/images/' + scene
+    #root_dir = '/root/leinyu/code/skyreels_v2/result/eval/i2v_1.3b_lora_ortho_imgs/' + scene
+    root_dir = '/root/leinyu/code/skyreels_v2/result/eval/i2v_14b_lora_perspective_imgs/' + scene
     #vids = ['00000','00035','00030','00020','00010','00005'] #生成的视频是逆时针，pshuman生成的图片是顺时针, 适配pshuman的顺时针
     #vids = ['00000','00005','00010','00015','00020','00025','00030','00035']
-    vids = ['0','7','6','4','2','1']
+    #vids = ['0','7','6','4','2','1']
+    #vids = ['00','70','60','40','20','10']
+    vids = ['00','05','10','15','20','25','30','35']
     #vids = ['0','1','2','3','4','5','6','7']
     colors = []
     normals = []

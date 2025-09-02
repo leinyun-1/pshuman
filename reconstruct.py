@@ -319,12 +319,12 @@ class ReMesh:
         mesh_smpl = trimesh.Trimesh(vertices=v_smpl.detach().cpu().numpy(), faces=self.smplx_face.detach().cpu().numpy())  
         mesh_smpl.export(f'{case_path}/{case}_smpl.obj')
 
-        nrm_opt = MeshOptimizer(v_smpl.detach(), self.smplx_face.detach(), edge_len_lims=[0.01, 0.1])
-        vertices, faces = nrm_opt.vertices, nrm_opt.faces
-
-        # v,f,c = make_sphere(device=self.device)
-        # nrm_opt = MeshOptimizer(v.detach(), f.detach(), edge_len_lims=[0.01, 0.1])
+        # nrm_opt = MeshOptimizer(v_smpl.detach(), self.smplx_face.detach(), edge_len_lims=[0.01, 0.1])
         # vertices, faces = nrm_opt.vertices, nrm_opt.faces
+
+        v,f,c = make_sphere(device=self.device)
+        nrm_opt = MeshOptimizer(v.detach(), f.detach(), edge_len_lims=[0.01, 0.1])
+        vertices, faces = nrm_opt.vertices, nrm_opt.faces
         
         # ###----------------------- optimization iterations-------------------------------------
         for i in tqdm(range(self.opt.iters)):
@@ -359,7 +359,7 @@ class ReMesh:
             
         mesh_remeshed = trimesh.Trimesh(vertices=vertices.detach().cpu().numpy(), faces=faces.detach().cpu().numpy())
         mesh_remeshed.export(f'{case_path}/{case}_remeshed.obj')
-        #return 
+        return 
         # save_mesh(case, vertices, faces)
         vertices = vertices.detach()
         faces = faces.detach()

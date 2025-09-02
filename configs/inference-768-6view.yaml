@@ -51,7 +51,7 @@ unet_from_pretrained_kwargs:
   mvcd_attention: true
 
 recon_opt:
-  res_path: out/demo
+  res_path: out/round_eval_persp_v8
   save_glb: False
   # camera setting
   num_view: 6

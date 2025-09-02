@@ -88,7 +88,7 @@ class LocalNormaRender:
             nrm_cam = (normals.unsqueeze(0)) @ normal_matrix.transpose(-2, -1)  # C,V,3
             # x轴翻转后优化结果内凹的问题解决（配合stable normal预测的normal图）,也能适用在 gt normal 图上
             nrm_cam[..., :1] = -nrm_cam[..., :1]
-            nrm_cam[..., 1:2] = -nrm_cam[..., 1:2]
+            #nrm_cam[..., 1:2] = -nrm_cam[..., 1:2] 
             nrm_cam = torch.nn.functional.normalize(nrm_cam, dim=-1)
             vert_nrm = (nrm_cam + 1.0) / 2.0                                    # C,V,3 in [0,1]
         else:
